@@ -1,0 +1,206 @@
+
+
+
+													LA BASES DES REQUETES DE SELECTION : 
+
+
+
+
+
+
+											************************************
+											1°) SELECT/FROM/AS
+											************************************
+
+
+
+
+Afficher tous les personnages :
+
+select nom from personnage;
+
+Afficher la liste des armes :
+
+select nom from arme; 
+
+Afficher seulement le nom et le « level » minimum de toutes les armes :
+
+select nom, levelMin from arme;
+
+Afficher le nom, le surnom et le « level » de tous les personnages : 
+
+select nom, surnom, level from personnage;
+
+Afficher le nom et le niveau de tous les personnages en modifiant les titres des colonnes en 
+« Pseudo » et « Niveau » : 
+
+select nom as pseudo, level as niveau from personnage;
+
+Afficher le type des armes en renommant le type en « Types d’armes du jeu » :
+
+ select libelle as "types d'armes du jeu" from typearme;
+ 
+ 
+ 
+										**************************************************
+										2°) LES CALCULS, FONCTION COUNT / SUM / AVG / MAX 
+										**************************************************
+										
+										
+										
+										
+										
+
+Récupérer le nombre d’armes existantes : 
+
+select count(*) from arme;
++----------+
+| count(*) |
++----------+
+|       10 |
++----------+
+
+ select count(*) as "nombre d'armes" from arme;
++----------------+
+| nombre d'armes |
++----------------+
+|             10 |
++----------------+
+
+Afficher le nombre de personnages du jeu (attention au nom de la colonne) : 
+
+	select count(*) as "nombre de personnage" from personnage;
++----------------------+
+| nombre de personnage |
++----------------------+
+|                    7 |
++----------------------+
+
+Récupérer la moyenne des niveaux des personnages du jeu : 
+
+	select avg(level) as "moyenne de niveau" from personnage;
++-------------------+
+| moyenne de niveau |
++-------------------+
+|            8.5714 |
++-------------------+
+
+
+Récupérer la somme des points de force, d’agilité e d’intelligence de toutes les classes :
+
+select sum(baseForce) as "Points de force", sum(baseAgi) as "Point d'agilité", sum(baseIntel) as "Point d'intel du jeu" from classe;
++-----------------+-----------------+----------------------+
+| Points de force | Point d'agilité | Point d'intel du jeu |
++-----------------+-----------------+----------------------+
+|              13 |              11 |                    9 |
++-----------------+-----------------+----------------------+
+
+
+Récupérer le « level » Minimum et Maximum des armes du jeu :
+
+ select min(levelMin), max(levelMin) from arme;
++---------------+---------------+
+| min(levelMin) | max(levelMin) |
++---------------+---------------+
+|             1 |            10 |
++---------------+---------------+
+
+Additionner le nombre de points de caractéristique de toutes les classes : 
+
+select nom, sum(baseForce + baseAgi + baseIntel) as "nombres de points de caractéristique" from classe group by nom;
++----------+--------------------------------------+
+| nom      | nombres de points de caractéristique |
++----------+--------------------------------------+
+| Archer   |                                   11 |
+| Guerrier |                                   10 |
+| Voleur   |                                   12 |
++----------+--------------------------------------+
+
+
+
+
+
+
+
+
+											***********************************************************************
+											3) LES FONCTIONS SUR LES CHAINES DE CARACTERES : CONCAT/SUBSTRING/LEFT
+											***********************************************************************
+											
+											
+											
+											
+											
+											
+Afficher le nom et le surnom des personnages dans une seule colonne (Concaténation) :
+
+select concat(nom, surnom) as "Personnage" from personnage;
++------------------------+
+| Personnage             |
++------------------------+
+| wawafBestWarrior       |
+| leWarptitWar           |
+| guerrierDu09baba       |
+| headhunterHH           |
+| NULL                   |
+| lartificierlartificier |
+| roguiBalbaoelBoxor     |
++------------------------+
+
+ Afficher le nom des classes avec les points de caractéristique dans une seule colonne : 
+ 
+  select concat(nom, '-F : ', baseForce, '-A : ', baseAgi, '-I : ', baseIntel) "classe" from classe;
++----------------------------+
+| classe                     |
++----------------------------+
+| Guerrier-F : 6-A : 2-I : 2 |
+| Archer-F : 3-A : 5-I : 3   |
+| Voleur-F : 4-A : 4-I : 4   |
++----------------------------+
+
+Afficher les 6 premières lettres des noms des personnages : 
+
+select substr(nom, 1, 6) from personnage;
++-------------------+
+| substr(nom, 1, 6) |
++-------------------+
+| wawaf             |
+| leWar             |
+| guerri            |
+| headhu            |
+| larche            |
+| lartif            |
+| roguiB            |
++-------------------+
+
+ Afficher 5 premières lettres du nom des classes concaténées au 20 premières lettres de la 
+description : 
+
+
+select concat (substr(nom, 1, 5), '-', substr(description, 1, 20)) "classe" from classe;
++----------------------------+
+| classe                     |
++----------------------------+
+| Guerr-Classe de CaC, avec  |
+| Arche-Classe à distance ma |
+| Voleu-Classe furtive, équi |
++----------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
